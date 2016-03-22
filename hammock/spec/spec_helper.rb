@@ -2,6 +2,8 @@
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
+require 'webmock/rspec'
+WebMock.disable_net_connect!(allow_localhost: true)
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -17,6 +19,12 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
+
+  config.before(:each) do
+    stub_request(:get, "https://www.udacity.com/public-api/v0/courses").
+        with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Host'=>'www.udacity.com', 'User-Agent'=>'Ruby'}).
+        to_return(:status => 200, :body => "", :headers => {})
+  end
   # ## Mock Framework
   #
   # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
