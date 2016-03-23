@@ -221,7 +221,7 @@ DEPENDENCIES
   capybara
   coffee-rails (~> 4.1.0)
   database_cleaner
-  devise_token_auth
+  devise_token_auth (>= 0.1.32.beta9)
   factory_girl_rails
   faker
   jbuilder (~> 2.0)

@@ -1,12 +1,9 @@
 FactoryGirl.define do
+
   factory :user do
     email { Faker::Internet.email }
-    password { Faker::Internet.password(8) }
-    password_confirmation { password }
-
-    factory :confirmed_user do
-      confirmed_at Time.zone.now
-    end
-
+    password { 'password' }
+    password_confirmation { 'password' }
   end
+
 end
