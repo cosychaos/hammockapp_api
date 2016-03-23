@@ -1,6 +1,11 @@
 source 'https://rubygems.org'
 
-gem "factory_girl_rails", "~> 4.0"
+
+gem "devise_token_auth", ">= 0.1.32.beta9"
+
+gem 'omniauth'
+
+gem 'rack-cors', :require => 'rack/cors'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -41,6 +46,14 @@ end
 
 group :test do
   gem 'rspec-rails'
+  gem 'capybara'
+  gem 'database_cleaner'
+  gem 'selenium-webdriver'
+  gem 'shoulda'
+  gem 'rspec-collection_matchers'
+  gem 'factory_girl_rails'
+  gem 'faker'
+  gem 'rack'
 end
 
 group :development do
