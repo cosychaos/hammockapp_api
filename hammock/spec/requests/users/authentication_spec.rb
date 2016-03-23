@@ -4,14 +4,14 @@ describe 'Users API'  do
 
   context 'login' do
 
+    let!(:user){FactoryGirl.create(:user)}
     before do
-      @user = FactoryGirl.create(:user)
       @user_params = {
-        email: @user.email,
-        password: @user.password
+        email: user.email,
+        password: user.password
       }
       @invalid_user_params = {
-        email: @user.email,
+        email: user.email,
         password: "not a real password!"
       }
     end
@@ -22,8 +22,8 @@ describe 'Users API'  do
       header = response.header
       expect(response).to be_success
       expect(header.has_key?("access-token")).to eq(true)
-      expect(json["data"]["email"]).to eq(@user.email)
-
+      expect(json["data"]["email"]).to eq(user.email)
+      p user
     end
 
     it " doesn't log in a user with invalid inputs" do
