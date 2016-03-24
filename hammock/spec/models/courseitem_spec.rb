@@ -14,8 +14,14 @@ describe "Course database", type: :model do
   end
 
   context "Coursera" do
-    it 'makes a successful call to the API' do
-      expect(Courseitem.request_coursera_courses[0].has_key?("name")).to eq true
+
+    it 'returns a collection of 13 json responses' do
+      expect(Courseitem.get_all_coursera_courses.length).to eq(19)
+    end
+
+    it 'returns json responses with the correct payload' do
+      first_response = Courseitem.get_all_coursera_courses.first
+      expect(first_response[0].has_key?("name")).to eq true
     end
 
     it 'populates the database with Coursera API name' do

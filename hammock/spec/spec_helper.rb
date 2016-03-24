@@ -62,7 +62,7 @@ RSpec.configure do |config|
         with(headers: {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
         to_return(:status => 200, :body => response, :headers => {})
 
-    stub_request(:get, "https://api.coursera.org/api/courses.v1/?fields=photoUrl,description,slug").
+    stub_request(:get, /.*api.coursera.*/ ).
         with(headers: {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
         to_return(:status => 200, :body => coursera, :headers => {})
   end
