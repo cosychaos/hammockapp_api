@@ -22,7 +22,7 @@ class Courseitem < ActiveRecord::Base
   end
 
   def self.request_coursera_courses(start)
-    uri = URI.parse("https://api.coursera.org/api/courses.v1/?fields=photoUrl,description,slug" + start)
+    uri = URI.parse("https://api.coursera.org/api/courses.v1/?fields=photoUrl,description,slug&" + start)
     response = Net::HTTP.get_response(uri)
     JSON.parse(response.body)["elements"]
   end
