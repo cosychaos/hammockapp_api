@@ -2,6 +2,8 @@
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
+require 'webmock/rspec'
+WebMock.disable_net_connect!(allow_localhost: true)
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -17,6 +19,41 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
+
+  response = { "courses": [
+          {
+            "key": "cs101",
+            "title": "IntrotoComputerScience",
+            "homepage": "https://www.udacity.com/course/cs101",
+            "subtitle": "BuildaSearchEngine&aSocialNetwork",
+            "level": "beginner",
+            "starter": true,
+            "image": "https://lh5.ggpht.com/ITepKi-2pz4Q6lrLfv6QDNViEG…",
+            "banner_image": "https://lh4.ggpht.com/9L_ZBdT4T19FvJGW…",
+            "teaser_video": {
+            "youtube_url": "https://www.youtube.com/watch?v=Pm_WAWZNbdA"
+            },
+            "summary": "Inthisintroductorycourse,you'lllearn…",
+            "short_summary": "Learnkeycomputerscienceconceptsin…",
+            "required_knowledge": "Thereisnopriorprogramming…",
+            "expected_learning": "You'lllearntheprogramminglanguage…",
+            "featured": true,
+            "syllabus": "###Lesson1:HowtoGetStarted…",
+            "faq": "###Whendoesthecoursebegin?Thisclassisself…",
+            "full_course_available": true,
+            "expected_duration": 3,
+            "expected_duration_unit": "months",
+            "new_release": false,
+            "tracks":["DataScience","WebDevelopment","SoftwareEng"],
+            "affiliates": [],
+            "image": "https://lh6.ggpht.com/1x-8cXA7J…"
+          }]}.to_json
+
+  config.before(:each) do
+    stub_request(:get, "https://www.udacity.com/public-api/v0/courses").
+        with(headers: {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
+        to_return(:status => 200, :body => response, :headers => {})
+  end
   # ## Mock Framework
   #
   # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
