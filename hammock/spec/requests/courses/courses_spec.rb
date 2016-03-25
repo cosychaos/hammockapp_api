@@ -55,7 +55,7 @@ describe "Courses API" do
 
     get "/courses", {}, @auth_headers
     expect(response.status).to eq 200
-
+    p response
     body = JSON.parse(response.body)
     expect(body.length).to eq (2)
   end
