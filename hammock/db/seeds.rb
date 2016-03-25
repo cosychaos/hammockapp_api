@@ -5,5 +5,28 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+courses = [{
+  "name": "The joy of physics",
+  "provider": "Coursera",
+  "status": "interested",
+  "id": "1"
+  },
+  {
+  "name": "The joy of maths",
+  "provider": "Udacity",
+  "status": "in progress",
+  "id": "2"
+  },
+  {
+  "name": "The joy of programming",
+  "provider": "Coursera",
+  "status": "complete",
+  "id": "3"
+  }]
 
-User.create(email: 'email@email.com', password: 'password', password_confirmation: 'password', confirmed_at: Time.zone.now, name: 'Emma' )
+
+user = User.create(email: 'email@email.com', password: 'password', password_confirmation: 'password', confirmed_at: Time.zone.now, name: 'Emma' )
+
+courses.each do |course|
+  Course.create!(name: course["name"], provider: course["provider"], status: course["status"], user_id: user.id)
+end
