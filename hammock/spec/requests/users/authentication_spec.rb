@@ -23,7 +23,6 @@ describe 'Users API'  do
       expect(response).to be_success
       expect(header.has_key?("access-token")).to eq(true)
       expect(json["data"]["email"]).to eq(user.email)
-      p user
     end
 
     it " doesn't log in a user with invalid inputs" do
