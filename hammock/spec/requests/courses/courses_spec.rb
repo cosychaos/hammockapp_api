@@ -79,6 +79,7 @@ describe "Courses API" do
     p Course.last
     expect(Course.last.name).to eq courseitem.name
     expect(Course.last.provider).to eq courseitem.provider
+    expect(Course.last.user_id).to eq user.id
   end
 
   it "updates a course" do

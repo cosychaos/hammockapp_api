@@ -12,6 +12,7 @@ class CoursesController < ApplicationController
       @course = Course.new
       @courseitem.attributes.map {|key, value| @course[key] = value }
       @course[:id] = nil
+      @course[:user_id] = current_user.id
       if @course.save
       render json: @course, status: :created, location: @course
     else
