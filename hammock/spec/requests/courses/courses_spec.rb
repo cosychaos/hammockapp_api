@@ -1,14 +1,16 @@
 describe "Courses API" do
 
+
+
   it "sends course list as json" do
     course = FactoryGirl.build :course
     user = FactoryGirl.create :user
     course.user_id = user.id
     course.save
 
-    @auth_headers = user.create_new_auth_token
+    auth_headers = user.create_new_auth_token
 
-    get "/courses", {}, @auth_headers
+    get "/courses", {}, auth_headers
     expect(response.status).to eq 200
 
     body = JSON.parse(response.body)
@@ -30,9 +32,6 @@ describe "Courses API" do
     url = body.map { |m| m["url"] }
     expect(url).to include "https://courses.edx.org/api/course_structure/v0/courses/ANUx/ANU-INDIA1x/1T2014/"
 
-    duration = body.map { |m| m["duration"] }
-    expect(duration).to include '3 months'
-
     startdate = body.map { |m| m["startdate"] }
     expect(startdate).to include "2016-03-23T00:00:00.000Z"
 
@@ -51,18 +50,60 @@ describe "Courses API" do
     course1.save
     course2.save
 
-    @auth_headers = user.create_new_auth_token
+    auth_headers = user.create_new_auth_token
 
-    get "/courses", {}, @auth_headers
+    get "/courses", {}, auth_headers
     expect(response.status).to eq 200
-    p response
     body = JSON.parse(response.body)
     expect(body.length).to eq (2)
   end
 
   it "returns an error if the user is not signed in" do
-    get "/courses", {}, @auth_headers
+    get "/courses", {}
     expect(response.status).to eq 401
+  end
+
+  it "adds a course" do
+    user = FactoryGirl.create :user
+    courseitem = FactoryGirl.create :courseitem
+    auth_headers = user.create_new_auth_token
+    auth_headers["Content-Type"] = 'application/json'
+    course_params = {
+      "course" => {
+        "id": courseitem.id
+      }
+    }.to_json
+    post "/courses", course_params, auth_headers
+    expect(response.status).to eq 201
+    p Courseitem.last
+    p Course.last
+    expect(Course.last.name).to eq courseitem.name
+    expect(Course.last.provider).to eq courseitem.provider
+    expect(Course.last.user_id).to eq user.id
+  end
+
+  it "updates a course" do
+    user = FactoryGirl.create :user
+    course = FactoryGirl.build :course
+    course.user_id = user.id
+    course.save
+    auth_headers = user.create_new_auth_token
+    auth_headers["Content-Type"] = 'application/json'
+    course_params = {
+      "course":{
+        "provider": "Coursera",
+        "name": "Ruby",
+        "description": "Program in Ruby",
+        "organisation": "ANUx",
+        "image": "/c4x/ANUx/ANU-INDIA1x/asset/homepage_course_image.jpg",
+        "url": "https://courses.edx.org/api/course_structure/v0/courses/ANUx/ANU-INDIA1x/1T2014/",
+        "status": "in progress",
+        "id": course.id
+      }
+    }.to_json
+    put "/courses/#{course.id}", course_params, auth_headers
+    expect(response.status).to eq 201
+    expect(Course.find(course.id).status).to eq "in progress"
   end
 
 end

@@ -20,10 +20,10 @@ module Hammock
 
     config.middleware.insert_before 0, "Rack::Cors" do
       allow do
-        origins '*'
+        origins 'localhost:8000'
         resource '*',
         :headers => :any,
-        :expose  => ['access-token', 'expiry', 'token-type', 'uid', 'client'],
+        :expose  => ['access-token', 'expiry', 'token-type', 'uid', 'client', 'Content-Type'],
         :methods => [:get, :post, :options, :delete, :put]
       end
     end
