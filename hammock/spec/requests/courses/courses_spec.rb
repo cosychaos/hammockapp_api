@@ -65,4 +65,46 @@ describe "Courses API" do
     expect(response.status).to eq 401
   end
 
+  it "adds a course" do
+    user = FactoryGirl.create :user
+    @auth_headers = user.create_new_auth_token
+    course_params = {
+      "course" => {
+        "provider" => "Coursera"
+        "name" => "Ruby"
+        "description" => "Program in Ruby"
+        "organisation" => "ANUx"
+        "image" => "/c4x/ANUx/ANU-INDIA1x/asset/homepage_course_image.jpg"
+        "url" => "https://courses.edx.org/api/course_structure/v0/courses/ANUx/ANU-INDIA1x/1T2014/"
+        "duration" => "3 months"
+      }
+    }.to_json
+    post "/courses", course_params, @auth_headers
+    expect(response.status).to eq 200
+    expect(Course.last.name).to eq "Ruby"
+    expect(Course.last.provider).to eq "Coursera"
+  end
+
+  it "updates a course" do
+    user = FactoryGirl.create :user
+    course = FactoryGirl.build :course
+    course.user_id = user.id
+    course.save
+    @auth_headers = user.create_new_auth_tokens
+    course_params = {
+      "course" => {
+        "provider" => "Coursera"
+        "name" => "Ruby"
+        "description" => "Program in Ruby"
+        "organisation" => "ANUx"
+        "image" => "/c4x/ANUx/ANU-INDIA1x/asset/homepage_course_image.jpg"
+        "url" => "https://courses.edx.org/api/course_structure/v0/courses/ANUx/ANU-INDIA1x/1T2014/"
+        "duration" => "5 months"
+      }
+    }.to_json
+    post "/courses/#{course.id}", course_params, @auth_headers
+    expect(response.status).to eq 200
+    expect(Course.where(id: course.id).duration).to eq "5 months"
+  end
+
 end
