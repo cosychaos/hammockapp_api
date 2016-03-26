@@ -25,10 +25,8 @@ courses = [{
   }]
 
 
-user = User.new(email: 'email@email.com', password: 'password', password_confirmation: 'password', confirmed_at: Time.zone.now, name: 'Emma' )
-user.save
+@user = User.create!(email: 'email@email.com', password: 'password', password_confirmation: 'password', confirmed_at: Time.zone.now, name: 'Emma' )
 
 courses.each do |course|
-  course = Course.new(name: course[:name], provider: course[:provider], status: course[:status], user_id: user.id)
-  course.save
+  course = Course.create!(name: course[:name], provider: course[:provider], status: course[:status], user_id: @user.id)
 end

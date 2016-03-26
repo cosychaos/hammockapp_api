@@ -1,11 +1,12 @@
 class Course < ActiveRecord::Base
 
   belongs_to :user
+  after_initialize :init
 
 
-  def initialize
-    super
+  def init
     self.status ||= "interested"
   end
+
 
 end
