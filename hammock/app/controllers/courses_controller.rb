@@ -17,10 +17,8 @@ class CoursesController < ApplicationController
   end
 
   def update
-    attributes = course_params.clone
-    if current_user
-      @course = Course.find(course_params[:id])
-      @course.update_attributes(course_params)
+    @course = Course.find(course_params[:id])
+    if @course.update_attributes(course_params)
       render json: @course, status: :created, location: @course
     else
       render json: @course.errors, status: :unprocessable_entity
