@@ -49,10 +49,22 @@ RSpec.configure do |config|
             "image": "https://lh6.ggpht.com/1x-8cXA7J…"
           }]}.to_json
 
+  coursera = {"elements": [
+    {"id": "v1-228",
+      "description": "For anyone who would like to apply their technical skills to creative work ranging from video games to art installations to interactive music, and also for artists who would like to use programming in their artistic practice.",
+      "slug": "digitalmedia",
+      "courseType": "v1.session",
+      "photoUrl": "https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://d15cw65ipctsrr.cloudfront.net/24/63a093e763b307dc9420e796aeb06a/GoldComputing3.jpg",
+      "name": "Creative Programming for Digital Media & Mobile Apps"}]}.to_json
+
   config.before(:each) do
     stub_request(:get, "https://www.udacity.com/public-api/v0/courses").
         with(headers: {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
         to_return(:status => 200, :body => response, :headers => {})
+
+    stub_request(:get, /.*api.coursera.*/ ).
+        with(headers: {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
+        to_return(:status => 200, :body => coursera, :headers => {})
   end
   # ## Mock Framework
   #
