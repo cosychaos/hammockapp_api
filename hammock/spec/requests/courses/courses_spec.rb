@@ -65,24 +65,20 @@ describe "Courses API" do
 
   it "adds a course" do
     user = FactoryGirl.create :user
+    courseitem = FactoryGirl.create :courseitem
     auth_headers = user.create_new_auth_token
     auth_headers["Content-Type"] = 'application/json'
     course_params = {
       "course" => {
-        "provider" => "Coursera",
-        "name" => "Ruby",
-        "description" => "Program in Ruby",
-        "organisation" => "ANUx",
-        "image" => "/c4x/ANUx/ANU-INDIA1x/asset/homepage_course_image.jpg",
-        "url" => "https://courses.edx.org/api/course_structure/v0/courses/ANUx/ANU-INDIA1x/1T2014/",
-        "status" => "interested",
-        "id": "1"
+        "id": courseitem.id
       }
     }.to_json
     post "/courses", course_params, auth_headers
     expect(response.status).to eq 201
-    expect(Course.last.name).to eq "Ruby"
-    expect(Course.last.provider).to eq "Coursera"
+    p Courseitem.last
+    p Course.last
+    expect(Course.last.name).to eq courseitem.name
+    expect(Course.last.provider).to eq courseitem.provider
   end
 
   it "updates a course" do

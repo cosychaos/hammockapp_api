@@ -8,8 +8,11 @@ class CoursesController < ApplicationController
   end
 
   def create
-    if current_user
-      @course = current_user.courses.create(course_params)
+      @courseitem = Courseitem.find(course_params[:id])
+      @course = Course.new
+      @courseitem.attributes.map {|key, value| @course[key] = value }
+      @course[:id] = nil
+      if @course.save
       render json: @course, status: :created, location: @course
     else
       render json: @course.errors, status: :unprocessable_entity
