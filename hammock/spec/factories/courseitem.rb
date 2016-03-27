@@ -1,8 +1,8 @@
 FactoryGirl.define do
   factory :courseitem do
     provider "EdX"
-    name "A random MOOC"
-    description "Program in Ruby"
+    name Faker::Hipster.sentence
+    description Faker::Hipster.paragraph
     organisation "ANUx"
     image "/c4x/ANUx/ANU-INDIA1x/asset/homepage_course_image.jpg"
     url "https://courses.edx.org/api/course_structure/v0/courses/ANUx/ANU-INDIA1x/1T2014/"
