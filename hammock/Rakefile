@@ -4,3 +4,25 @@
 require File.expand_path('../config/application', __FILE__)
 
 Rails.application.load_tasks
+
+namespace :db do
+  namespace :load do
+
+    desc 'Load Coursera Courses from the API'
+    task coursera_courses: :environment do
+        puts "Loading Coursera courses, may take a few seconds..."
+       importer = CourseImporter.new
+       importer.add_coursera_courses
+       puts 'Done!'
+    end
+
+    desc 'Load Udacity Courses from the API'
+    task udacity_courses: :environment do
+      puts "Loading Udacity courses, may take a few seconds..."
+      importer = CourseImporter.new
+      importer.add_udacity_courses
+      puts 'Done!'
+    end
+
+  end
+end
