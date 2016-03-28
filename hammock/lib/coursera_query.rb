@@ -3,7 +3,7 @@ class CourseraQuery
   include HTTParty
 
 
-  def get_all_coursera_courses
+  def get_all_courses
     results = []
     COURSERA_PAGING_ARRAY.each { |start| results.push(request_coursera_courses(start)) }
     return results

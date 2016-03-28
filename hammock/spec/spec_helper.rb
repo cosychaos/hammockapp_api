@@ -3,7 +3,9 @@ ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'webmock/rspec'
-require_relative '../lib/mooc_importers/coursera_query.rb'
+require 'httparty'
+require_relative '../lib/coursera_query.rb'
+require_relative '../lib/udacity_query.rb'
 WebMock.disable_net_connect!(allow_localhost: true)
 
 # Requires supporting ruby files with custom matchers and macros, etc, in

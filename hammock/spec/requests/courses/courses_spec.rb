@@ -75,8 +75,6 @@ describe "Courses API" do
     }.to_json
     post "/courses", course_params, auth_headers
     expect(response.status).to eq 201
-    p Courseitem.last
-    p Course.last
     expect(Course.last.name).to eq courseitem.name
     expect(Course.last.provider).to eq courseitem.provider
     expect(Course.last.user_id).to eq user.id
