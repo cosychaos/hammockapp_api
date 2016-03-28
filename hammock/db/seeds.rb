@@ -24,9 +24,26 @@ courses = [{
   "id": "3"
   }]
 
+course_modules = [{
+    "title": "sign up for the course",
+    "complete": true
+  },
+  {
+    "title": "Complete work for week 1",
+    "complete": false
+  },
+  {
+    "title": "Read up on programming",
+    "complete": false
+  }]
+
 
 @user = User.create!(email: 'email@email.com', password: 'password', password_confirmation: 'password', confirmed_at: Time.zone.now, name: 'Emma' )
 
 courses.each do |course|
   course = Course.create!(name: course[:name], provider: course[:provider], status: course[:status], user_id: @user.id)
+end
+
+course_modules.each do |course_module|
+  CourseModule.create!(title: course_module[:title], complete: course_module[:complete], course_id: 2)
 end
