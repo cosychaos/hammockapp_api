@@ -26,6 +26,15 @@ class CoursesController < ApplicationController
     end
   end
 
+  def destroy
+    @course = Course.find(course_params[:id])
+    if @course.destroy
+      render json: {}, status: :no_content
+    else
+      render json: @course.errors, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def course_params

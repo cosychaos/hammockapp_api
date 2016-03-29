@@ -18,7 +18,16 @@ class CourseModulesController < ApplicationController
   def update
     @course_module = CourseModule.find(params[:id])
     if @course_module.update_attributes(module_params)
-      render json: @course_module, status: :created, location: @course_module
+      render json: @course_module, status: :accepted, location: @course_module
+    else
+      render json: @course_module.errors, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @course_module = CourseModule.find(params[:id])
+    if @course_module.destroy
+      render json: {}, status: :no_content
     else
       render json: @course_module.errors, status: :unprocessable_entity
     end
