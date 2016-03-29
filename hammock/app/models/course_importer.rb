@@ -1,8 +1,9 @@
 class CourseImporter
 
-  def initialize(coursera_query_klass=CourseraQuery, udacity_query_klass=UdacityQuery)
+  def initialize(coursera_query_klass=CourseraQuery, udacity_query_klass=UdacityQuery, edx_query_klass=EdxQuery)
     @coursera_query = coursera_query_klass.new
     @udacity_query = udacity_query_klass.new
+    @edx_query = edx_query_klass.new
   end
 
   def add_udacity_courses
@@ -21,9 +22,16 @@ class CourseImporter
     end
   end
 
+  def add_edx_courses
+    course_list = edx_query.get_all_courses
+    course_list.each do |course|
+      Courseitem.find_or_create_by(provider: 'edX', name: course["title"], description: course["description"], organisation: course["course:school"], image: course["course:image_thumbnail"], url: course["link"], duration: course["course:length"], startdate: course["course:start"], enddate: course["course:end"])
+    end
+  end
+
   private
 
-  attr_reader :udacity_query, :coursera_query
+  attr_reader :udacity_query, :coursera_query, :edx_query
 
   def create_coursera_url(slug, course_type)
     return "https://www.coursera.org/course/" + slug if course_type == "v1.session"
