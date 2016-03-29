@@ -9,10 +9,7 @@ class CoursesController < ApplicationController
 
   def create
     @courseitem = Courseitem.find(course_params[:id])
-    @course = Course.new
-    @courseitem.attributes.map {|key, value| @course[key] = value }
-    @course[:id] = nil
-    @course[:user_id] = current_user.id
+    @course = Course.build_with_clone(@courseitem, current_user)
     if @course.save
       render json: @course, status: :created, location: @course
     else
