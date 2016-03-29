@@ -11,14 +11,16 @@ namespace :db do
     desc 'Load Coursera Courses from the API'
     task coursera_courses: :environment do
         puts "Loading Coursera courses, may take a few seconds..."
-       Courseitem.add_coursera_courses
+       importer = CourseImporter.new
+       importer.add_coursera_courses
        puts 'Done!'
     end
 
     desc 'Load Udacity Courses from the API'
     task udacity_courses: :environment do
       puts "Loading Udacity courses, may take a few seconds..."
-      Courseitem.add_udacity_courses
+      importer = CourseImporter.new
+      importer.add_udacity_courses
       puts 'Done!'
     end
 
