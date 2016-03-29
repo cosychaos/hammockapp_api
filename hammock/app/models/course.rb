@@ -9,5 +9,12 @@ class Course < ActiveRecord::Base
     self.status ||= "interested"
   end
 
+  def self.build_with_clone(attributes = {}, courseitem, current_user)
+    courseitem.attributes.map {|key, value| attributes[key] = value }
+    attributes[:id] = nil
+    attributes[:user_id] = current_user.id
+    self.new(attributes)
+  end
+
 
 end
