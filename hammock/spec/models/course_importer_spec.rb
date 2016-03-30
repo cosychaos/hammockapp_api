@@ -49,7 +49,8 @@ describe 'CourseImporter', type: :model do
               "image" => "https://lh6.ggpht.com/1x-8cXA7J…"
             }]
 
-    edx_courses = [{
+    edx_courses = [[
+      {
       "title" => "Music Production and Vocal Recording Technology",
       "link" => "https://www.edx.org/course/music-production-vocal-recording-berkleex-bmpr365x-1",
       "description" => "music",
@@ -58,7 +59,19 @@ describe 'CourseImporter', type: :model do
       "course:school" => "BerkleeX",
       "course:image_thumbnail" => "https://www.edx.org/sites/default/files/course/image/promoted/edx_berklee-banner-378x225_0.jpg",
       "course:length" => "6 weeks"
-      }]
+      }],
+      [
+        {
+        "title" => "Statistical Thinking for Data Science and Analytics",
+        "link" => "https://www.edx.org/course/statistical-thinking-data-science-columbiax-ds101x-0",
+        "description" => "statistics",
+        "course:start" => "2016-04-18 00:00:00",
+        "course:end" => "2017-04-18 00:00:00",
+        "course:school" => "ColumbiaX",
+        "course:image_thumbnail" => "https://www.edx.org/sites/default/files/course/image/promoted/columbiax_ds101x378x225.jpg",
+        "course:length" => "6 weeks"
+        }
+      ]]
 
     let(:coursera_query) {double(:coursera_query, get_all_courses: coursera_courses)}
     let(:udacity_query) {double(:udacity_query, get_all_courses: udacity_courses)}
@@ -109,7 +122,7 @@ describe 'CourseImporter', type: :model do
       end
 
       it 'creates the as many course items as were sent in the data' do
-        expect{course_importer.add_edx_courses}.to change {Courseitem.all.count}.by 1
+        expect{course_importer.add_edx_courses}.to change {Courseitem.all.count}.by 2
       end
 
     end
