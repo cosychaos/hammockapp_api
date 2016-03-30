@@ -1,5 +1,7 @@
 describe 'Courseitems API' do
 
+  render_views
+
   describe 'GET /courseitems' do
 
     it 'returns a JSON payload of course items' do
