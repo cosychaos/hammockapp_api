@@ -1,9 +1,12 @@
 class CourseitemsController < ApplicationController
   before_action :authenticate_user!
 
+  respond_to :json
+
 
   def index
-    render json: Courseitem.all
+    @courseitems = Courseitem.all
+    @user = current_user
   end
 
 end
