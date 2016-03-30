@@ -78,6 +78,26 @@ describe "Courses API" do
     expect(Course.last.name).to eq courseitem.name
     expect(Course.last.provider).to eq courseitem.provider
     expect(Course.last.user_id).to eq user.id
+    expect(Course.last.status).to eq 'interested'
+  end
+
+  it "adds a course with a status of in programm" do
+    user = FactoryGirl.create :user
+    courseitem = FactoryGirl.create :courseitem
+    auth_headers = user.create_new_auth_token
+    auth_headers["Content-Type"] = 'application/json'
+    course_params = {
+      "course" => {
+        "id": courseitem.id,
+        "status": "in progress"
+      }
+    }.to_json
+    post "/courses", course_params, auth_headers
+    expect(response.status).to eq 201
+    expect(Course.last.name).to eq courseitem.name
+    expect(Course.last.provider).to eq courseitem.provider
+    expect(Course.last.user_id).to eq user.id
+    expect(Course.last.status).to eq "in progress"
   end
 
   it "updates a course" do

@@ -31,6 +31,18 @@ describe Course, type: :model do
       expect(course.user_id).to eq user.id
     end
 
+    context 'passed in with an in progress status' do
+
+      let(:user){ FactoryGirl.create :user}
+      let(:courseitem) {FactoryGirl.create :courseitem}
+      let(:current_course) {Course.build_with_clone(courseitem, user, "in progress")}
+
+      it 'builds a course with a status of interested' do
+        expect(current_course.status).to eq "in progress"
+      end
+
+    end
+
   end
 
 end

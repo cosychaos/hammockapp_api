@@ -9,6 +9,7 @@ gem 'rack-cors', :require => 'rack/cors'
 
 gem 'httparty'
 gem 'faker'
+gem 'crack'
 
 gem 'rabl'
 # Also add either `oj` or `yajl-ruby` as the JSON parser

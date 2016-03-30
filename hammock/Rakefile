@@ -24,5 +24,13 @@ namespace :db do
       puts 'Done!'
     end
 
+    desc 'Load edX Courses from the API'
+    task edx_courses: :environment do
+      puts "Loading edX courses, may take a few seconds..."
+      importer = CourseImporter.new
+      importer.add_edx_courses
+      puts 'Done!'
+    end
+
   end
 end
