@@ -1,7 +1,7 @@
 class Courseitem < ActiveRecord::Base
 
   def cloned_by_current_user?(user)
-    user.courses.any? {|course| course.name == self.name }
+    user.courses.any? {|course| course.name == self.name } if user
   end
 
 end

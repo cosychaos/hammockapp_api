@@ -5,8 +5,8 @@ class CourseitemsController < ApplicationController
 
 
   def index
-    @courseitems = Courseitem.all
     @user = current_user
+    @courseitems = Courseitem.all
   end
 
 end
