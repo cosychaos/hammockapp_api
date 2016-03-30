@@ -23,9 +23,11 @@ class CourseImporter
   end
 
   def add_edx_courses
-    course_list = edx_query.get_all_courses
-    course_list.each do |course|
-      Courseitem.find_or_create_by(provider: 'edX', name: course["title"], description: course["description"], organisation: course["course:school"], image: course["course:image_thumbnail"], url: course["link"], duration: course["course:length"], startdate: course["course:start"], enddate: course["course:end"])
+    responses = edx_query.get_all_courses
+    responses.each do |course_list|
+      course_list.each do |course|
+        Courseitem.find_or_create_by(provider: 'edX', name: course["title"], description: course["description"], organisation: course["course:school"], image: course["course:image_thumbnail"], url: course["link"], duration: course["course:length"], startdate: course["course:start"], enddate: course["course:end"])
+      end
     end
   end
 
