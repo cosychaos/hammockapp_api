@@ -49,13 +49,26 @@ describe 'CourseImporter', type: :model do
               "image" => "https://lh6.ggpht.com/1x-8cXA7J…"
             }]
 
+    edx_courses = [{
+      "title" => "Music Production and Vocal Recording Technology",
+      "link" => "https://www.edx.org/course/music-production-vocal-recording-berkleex-bmpr365x-1",
+      "description" => "music",
+      "course:start" => "2016-04-18 00:00:00",
+      "course:end" => "2017-04-18 00:00:00",
+      "course:school" => "BerkleeX",
+      "course:image_thumbnail" => "https://www.edx.org/sites/default/files/course/image/promoted/edx_berklee-banner-378x225_0.jpg",
+      "course:length" => "6 weeks"
+      }]
+
     let(:coursera_query) {double(:coursera_query, get_all_courses: coursera_courses)}
     let(:udacity_query) {double(:udacity_query, get_all_courses: udacity_courses)}
+    let(:edx_query) {double(:edx_query, get_all_courses: edx_courses)}
 
     let(:coursera_query_klass){ double(:coursera_query_klass, new: coursera_query)}
     let(:udacity_query_klass) { double(:udacity_query_klass, new: udacity_query)}
+    let(:edx_query_klass) { double(:edx_query_klass, new: edx_query)}
 
-    let(:course_importer){ CourseImporter.new(coursera_query_klass, udacity_query_klass)}
+    let(:course_importer){ CourseImporter.new(coursera_query_klass, udacity_query_klass, edx_query_klass)}
 
     describe '#import_udacity_courses' do
 
@@ -84,6 +97,19 @@ describe 'CourseImporter', type: :model do
       it 'creates records with a url derived from the slug' do
         course_importer.add_coursera_courses
         expect(Courseitem.where(url: "https://www.coursera.org/course/digitalmedia")).to exist
+      end
+
+    end
+
+    describe '#import_edx_courses' do
+
+      it 'populates with edX API data' do
+        course_importer.add_edx_courses
+        expect(Courseitem.where(name: "Music Production and Vocal Recording Technology")).to exist
+      end
+
+      it 'creates the as many course items as were sent in the data' do
+        expect{course_importer.add_edx_courses}.to change {Courseitem.all.count}.by 1
       end
 
     end

@@ -9,6 +9,7 @@ gem 'rack-cors', :require => 'rack/cors'
 
 gem 'httparty'
 gem 'faker'
+gem 'crack'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
