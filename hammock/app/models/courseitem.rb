@@ -6,6 +6,13 @@ class Courseitem < ActiveRecord::Base
     clone ? clone.status : false
   end
 
+  def clone_id(user)
+    clone = cloned_by_current_user(user)
+    clone ? clone.id : nil
+  end
+
+
+
   private
 
 

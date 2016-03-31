@@ -7,7 +7,6 @@ describe Courseitem, type: :model do
     let(:user) {FactoryGirl.create :user}
     let(:courseitem){ FactoryGirl.create :courseitem}
 
-
     it 'returns the status of the clone if the current user has a course cloned from the courseitem' do
       course = Course.build_with_clone(courseitem, user)
       course.save
@@ -31,6 +30,23 @@ describe Courseitem, type: :model do
 
     end
 
+
+  end
+
+  describe '#clone_id' do
+
+    let(:user) {FactoryGirl.create :user}
+    let(:courseitem){ FactoryGirl.create :courseitem}
+
+    it 'returns the id of the users clone if the courseitem has been cloned' do
+      course = Course.build_with_clone(courseitem, user)
+      course.save
+      expect(courseitem.clone_id(user)).to eq course.id
+    end
+
+    it 'returns nil if the courseitem has not been cloned' do
+      expect(courseitem.clone_id(user)).to eq nil
+    end
 
   end
 
