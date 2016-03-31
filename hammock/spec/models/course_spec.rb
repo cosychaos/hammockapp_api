@@ -43,6 +43,21 @@ describe Course, type: :model do
 
     end
 
+    context 'duplicate course' do
+
+      let(:user){ FactoryGirl.create :user}
+      let(:courseitem) {FactoryGirl.create :courseitem}
+      let(:course) {Course.build_with_clone(courseitem, user)}
+
+      it "doesn't build a duplicate course" do
+        course.save
+        new_course = Course.build_with_clone(courseitem, user, "in progress")
+        new_course.save
+        expect(Course.where(name: courseitem.name).length).to eq 1
+      end
+
+    end
+
   end
 
   describe '#build with user' do

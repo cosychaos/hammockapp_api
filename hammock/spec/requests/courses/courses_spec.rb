@@ -118,6 +118,27 @@ describe "Courses API" do
     expect(Course.last.status).to eq "in progress"
   end
 
+  it "doesn't create a duplicate entry if a course already exists for that user" do
+    user = FactoryGirl.create :user
+    courseitem = FactoryGirl.create :courseitem
+    course = Course.build_with_clone(courseitem, user)
+    course.save
+
+    auth_headers = user.create_new_auth_token
+    auth_headers["Content-Type"] = 'application/json'
+    course_params = {
+      "course" => {
+        "id": courseitem.id,
+        "status": "in progress"
+      }
+    }.to_json
+    post "/courses", course_params, auth_headers
+    expect(response.status).to eq 201
+
+    expect(Course.where(name: courseitem.name).length).to eq 1
+    expect(Course.where(name: courseitem.name).first.status).to eq "interested"
+  end
+
   it "updates a course" do
     user = FactoryGirl.create :user
     course = FactoryGirl.build :course
