@@ -1,4 +1,4 @@
-describe 'UdacityQuery' do
+xdescribe 'UdacityQuery' do
 
   describe '#get_all_coursera_courses' do
 

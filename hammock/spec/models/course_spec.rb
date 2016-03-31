@@ -45,4 +45,32 @@ describe Course, type: :model do
 
   end
 
+  describe '#build with user' do
+
+    let(:user){ FactoryGirl.create :user}
+    let(:params) {{ "name": "a user course", "image": "some image url", "url": "some course url"}}
+
+    it 'builds a course associated with the specified user' do
+      course = Course.build_with_user(params, user)
+      expect(course.user_id).to eq user.id
+    end
+
+    it 'builds a course with a default status of interested' do
+      course = Course.build_with_user(params, user)
+      expect(course.status).to eq "interested"
+    end
+
+    context 'passed in with an in progress status' do
+
+      let(:enrolled_params) {{ "name": "a user course", "image": "some image url", "url": "some course url", "status": "in progress"}}
+
+      it 'builds a course with a status of in progress' do
+        course = Course.build_with_user(enrolled_params, user)
+        expect(course.status).to eq enrolled_params[:status]
+      end
+
+    end
+
+  end
+
 end

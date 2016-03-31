@@ -18,5 +18,10 @@ class Course < ActiveRecord::Base
     self.new(attributes)
   end
 
+  def self.build_with_user(params, current_user)
+    params[:user_id] ||= current_user.id
+    self.new(params)
+  end
+
 
 end

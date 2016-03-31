@@ -68,6 +68,8 @@ RSpec.configure do |config|
     stub_request(:get, /.*api.coursera.*/ ).
         with(headers: {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
         to_return(:status => 200, :body => coursera, :headers => {})
+
+
   end
   # ## Mock Framework
   #
