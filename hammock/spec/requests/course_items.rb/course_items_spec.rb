@@ -43,6 +43,22 @@ describe 'Courseitems API' do
       expect(body[1]["cloned_status"]).to eq false
     end
 
+    it 'returns all courseitems with their clone id' do
+      user = FactoryGirl.create :user
+      courseitem = FactoryGirl.create :courseitem
+      courseitem_uncloned = FactoryGirl.create :courseitem_two
+      course_one = Course.build_with_clone(courseitem, user)
+      course_one.save
+      auth_headers = user.create_new_auth_token
+
+      get "/courseitems", {}, auth_headers
+      expect(response.status).to eq 200
+      body = JSON.parse(response.body)
+      p body
+      expect(body[0]["clone_id"]).to eq course_one.id
+      expect(body[1]["clone_id"]).to eq nil
+    end
+
   end
 
 end
