@@ -83,3 +83,5 @@ production:
   database: hammock_production
   username: hammock
   password: <%= ENV['HAMMOCK_DATABASE_PASSWORD'] %>
+  host: 127.0.0.1
+  port: 5432
