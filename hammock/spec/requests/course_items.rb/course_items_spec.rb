@@ -27,10 +27,10 @@ describe 'Courseitems API' do
       expect(body.length).to eq((Courseitem.all.count))
     end
 
-    it 'returns all courseitems with a cloned status' do
+    it 'returns all courseitems with their cloned status' do
       user = FactoryGirl.create :user
       courseitem = FactoryGirl.create :courseitem
-      courseitem_uncloned = FactoryGirl.create :courseitem
+      courseitem_uncloned = FactoryGirl.create :courseitem_two
       course_one = Course.build_with_clone(courseitem, user)
       course_one.save
       auth_headers = user.create_new_auth_token
@@ -39,8 +39,8 @@ describe 'Courseitems API' do
       expect(response.status).to eq 200
       body = JSON.parse(response.body)
       p body
-      expect(body[0]["cloned"]).to eq true
-      expect(body[1]["cloned"]).to eq true
+      expect(body[0]["cloned_status"]).to eq "interested"
+      expect(body[1]["cloned_status"]).to eq false
     end
 
   end

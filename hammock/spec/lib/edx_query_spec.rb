@@ -1,6 +1,6 @@
 describe 'edXQuery' do
 
-  describe '#get_all_edx_courses' do
+  xdescribe '#get_all_edx_courses' do
 
     let(:edxquery){ EdxQuery.new }
 

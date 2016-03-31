@@ -1,3 +1,3 @@
 collection @courseitems
 attributes :provider, :name, :description, :organisation, :image, :url, :status, :id
-node(:cloned) { |courseitem| courseitem.cloned_by_current_user?(@user) }
+node(:cloned_status) { |courseitem| courseitem.check_cloned_status(@user) }
