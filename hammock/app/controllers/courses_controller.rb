@@ -8,13 +8,10 @@ class CoursesController < ApplicationController
   end
 
   def create
-    @courseitem = Courseitem.find(course_params[:id])
-    @course = Course.build_with_clone(@courseitem, current_user, course_params[:status]) if @courseitem
-    if @course.save
-      render json: @course, status: :created, location: @course
-    else
-      render json: @course.errors, status: :unprocessable_entity
-    end
+    @course = Course.build_with_user(course_params, current_user) unless course_params[:id]
+    @course = Course.build_with_clone(Courseitem.find(course_params[:id]), current_user, course_params[:status]) if course_params[:id]
+    render json: @course, status: :created, location: @course if @course.save
+    render json: @course.errors, status: :unprocessable_entity unless @course.save
   end
 
   def update
