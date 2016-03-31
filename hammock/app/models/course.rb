@@ -10,8 +10,7 @@ class Course < ActiveRecord::Base
   end
 
   def self.build_with_clone(courseitem, current_user, status = 'interested')
-    attributes = {}
-    courseitem.attributes.map {|key, value| attributes[key] = value }
+    attributes = courseitem.attributes
     self.set_attributes(attributes, current_user, status)
     duplicate = self.where(user: current_user.id, name: courseitem.name).first
     duplicate ? duplicate : self.new(attributes)
