@@ -7,6 +7,11 @@ class CoursesController < ApplicationController
     render json: Course.where(user_id: current_user.id)
   end
 
+  def show
+    @course = Course.find(params[:id])
+    render json: @course
+  end
+
   def create
     @course = Course.build_with_user(course_params, current_user) unless course_params[:id]
     @course = Course.build_with_clone(Courseitem.find(course_params[:id]), current_user, course_params[:status]) if course_params[:id]

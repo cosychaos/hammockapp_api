@@ -57,6 +57,21 @@ describe "Courses API" do
     expect(body.length).to eq (2)
   end
 
+  it "return a single course" do
+    user = FactoryGirl.create :user
+    course1 = FactoryGirl.build :course
+    course1.user_id = user.id
+    course1.save
+
+    auth_headers = user.create_new_auth_token
+    get "/courses/#{course1.id}", {}, auth_headers
+
+    expect(response.status).to eq 200
+    body = JSON.parse(response.body)
+    expect(body["name"]).to eq course1.name
+    expect(body["image"]).to eq course1.image
+  end
+
   it "returns an error if the user is not signed in" do
     get "/courses", {}
     expect(response.status).to eq 401
